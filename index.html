@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<script src="js/vue.js"></script>
+		<title></title>
+	</head>
+	<body>
+		<div id="demo">
+			<p v-if="attrrubute">这里是通过v-if判断什么存在...</p>
+			<p v-if="attrrubute2">这里是通过v-if判断什么存在...</p>
+		</div>
+		
+		<script>
+			var app = new Vue({
+				el: '#demo',
+				data: {
+					attrrubute: true,
+					attrrubute2: false
+				}
+			})
+		</script>
+	</body>
+</html>

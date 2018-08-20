@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+	<title>
+	vuejs 嵌套循环、if判断
+	</title>
+	<style type="text/css">
+		[v-cloak] { display: none }
+	</style>
+</head>
+ 
+<body>
+   <div id="app">
+		
+		<table>
+			<tr>			
+				<td >id</td>
+				<td >姓名</td>
+				<td >手机号</td>
+				<td >城市</td>
+				
+				<td >通过审核</td>
+				<td >我的学生</td>
+				<td >操作</td>				
+			</tr>
+		   <tr v-for="(item,index) in list "> 
+			    <td>{{item.id}}</td> 
+			    <td>{{item.name}}</td>
+			    <td>{{item.tel}}</td> 
+				
+			    <td>{{item.province}}_{{item.city}}</td> 
+				<td v-if="item.status==1">是</td> 
+				<td v-else-if="item.status==0">否</td> 
+				<td >
+					<span v-for="stu in item.stu ">
+					{{stu.name}},
+					</span>
+				</td> 
+				<td>
+				   <button v-on:click="edit">修改</button>
+				   <button v-on:click="del(index)">删除</button>
+				</td> 
+		   </tr>
+		</table>
+   </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js" charset="utf-8"></script>
+<script src="https://cdn.bootcss.com/vue/2.3.0/vue.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+$(function() {
+    new Vue({ 
+		el: '#app', 
+	    methods: { 
+			del:function(index){
+				this.list.splice(index,1);
+			},
+			edit: function () {
+				alert('修改')
+			},
+		},
+	    data: {
+			"list":[{
+				"id":"139",
+				"name":"王五",
+				"tel":"13681829898",
+				"status":"1",
+				"province":"省",
+				"city":"市",
+				"sex":"1",
+				"stu":[{
+					"id":"200",
+					"name":"学生1",
+					"tel":"13681829898",
+				},{
+					"id":"201",
+					"name":"学生2",
+					"tel":"13681829898",
+				}],
+			},
+			{
+				"id":"138",
+				"name":"麻子",
+				"tel":"13681829898",
+				"status":"0",
+				"province":"省",
+				"city":"市",
+				"sex":"0",
+				"stu":[{
+					"id":"300",
+					"name":"学生31",
+					"tel":"13681829898",
+				},{
+					"id":"301",
+					"name":"学生32",
+					"tel":"13681829898",
+				}],
+			},
+			{
+				"id":"137",
+				"name":"丽丽",
+				"tel":"15152882891",
+				"status":"0",
+				"province":"省",
+				"city":"市",
+				"sex":"1",
+				"stu":[{
+					"id":"400",
+					"name":"学生41",
+					"tel":"13681829898",
+				},{
+					"id":"401",
+					"name":"学生42",
+					"tel":"13681829898",
+				}],
+			},
+			{
+				"id":"136",
+				"name":"娜娜",
+				"tel":"15152882891",
+				"status":"0",
+				"province":"省",
+				"city":"市",
+				"sex":"0",
+				"stu":[{
+					"id":"500",
+					"name":"学生51",
+					"tel":"13681829898",
+				},{
+					"id":"501",
+					"name":"学生52",
+					"tel":"13681829898",
+				}],
+			}]
+	    }
+	})
+})
+</script>
+</html>
