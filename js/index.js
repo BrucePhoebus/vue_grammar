@@ -1,5 +1,13 @@
-var app = new Vue({
-	el: '#app',
+Vue.component('todo-item', {
+	prop:{
+		item:'',
+		items: []
+	}
+	template: '<li>This is a todo.</li>'
+});
+
+var all = new Vue({
+	el: '#all',
 	data: {
 		attrrubute: true,
 		attrrubute2: false,

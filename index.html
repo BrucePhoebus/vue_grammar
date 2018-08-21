@@ -5,9 +5,393 @@
 		<meta charset="utf-8" />
 		<script src="js/vue.js"></script>
 		<title></title>
+
 	</head>
 
-	<body>
+	<body id="all">
+		<!--Class 与 Style 绑定-->
+		<div id="app">
+			<div v-bind:class="{ active: isActive }">
+				active: {{ isActive }}
+			</div>
+
+			<div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">
+				active: {{isActive}}, 'text-danger': {{hasError}}
+			</div>
+			<div class="static active"></div>
+
+			<div v-bind:class="classObject">
+				<span>active: {{isActive}}, 'text-danger': {{hasError}}</span>
+			</div>
+			<hr />
+			<div v-bind:class="[activeClass, errorClass]">
+				<span>activeClass: {{activeClass}}, 'errorClass': {{errorClass}}</span>
+			</div>
+			<div v-bind:class="[isActive ? activeClass : '', errorClass]">
+				<span>isActive? {{activeClass}}</span>
+			</div>
+			<hr />
+		</div>
+		<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					activeClass: 'active',
+					errorClass: 'text-danger',
+					isActive: true,
+					hasError: true,
+					//					classObject: {
+					//						active: true,
+					//						'text-danger': false
+					//					}
+				},
+				computed: {
+					classObject: function() {
+						return {
+							active: this.isActive && !this.error,
+							'text-danger': this.error && this.error.type === 'fatal'
+						}
+					}
+				}
+			});
+		</script>
+
+		<!--计算属性和侦听器
+			计算属性 vs 侦听属性
+			计算属性的 setter
+			侦听器
+		-->
+		<!--<div id=app>
+			<div id="demo">{{ fullName }}</div>
+
+			<p>
+				Ask a yes/no question:
+				<input v-model="question">
+			</p>
+			<p>{{ answer }}</p>
+		</div>-->
+		<!-- 因为 AJAX 库和通用工具的生态已经相当丰富，Vue 核心代码没有重复 -->
+		<!-- 提供这些功能以保持精简。这也可以让你自由选择自己更熟悉的工具。 -->
+		<!--<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+		<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					firstName: 'Foo',
+					lastName: 'Bar',
+					question: '',
+					answer: 'I cannot give you an answer until you ask a question!',
+				},
+				watch: {
+					// 如果 `question` 发生改变，这个函数就会运行
+					question: function(newQuestion, oldQuestion) {
+						this.answer = 'Waiting for you to stop typing...';
+						this.debouncedGetAnswer();
+					},
+					firstName: function(val) {
+						this.fullName = val + ' ' + this.lastName;
+					},
+					lastName: function(val) {
+						this.fullName = this.firstName + ' ' + val;
+					}
+				},
+				created: function() {
+					// `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
+					// 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+					// AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
+					// `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
+					// 请参考：https://lodash.com/docs#debounce
+					this.debouncedGetAnswer = _.debounce(this.getAnswer, 500);
+				},
+				computed: {
+					getAnswer: function() {
+						if(this.question.indexOf('?') === -1) {
+							this.answer = 'Questions usually contain a question mark. ;-)';
+							return;
+						}
+						this.answer = 'Thinking...';
+						var vm = this;
+						axios.get('https://yesno.wtf/api')
+							.then(function(response) {
+								vm.answer = _.capitalize(response.data.answer);
+							})
+							.catch(function(error) {
+								vm.answer = 'Error! Could not reach the API. ' + error;
+							})
+					},
+					fullName: {
+						// getter
+						get: function() {
+							return this.firstName + ' ' + this.lastName;
+						},
+						// setter
+						set: function(newValue) {
+							var names = newValue.split(' ');
+							this.firstName = names[0];
+							this.lastName = names[names.length - 1];
+						}
+					}
+				}
+			});
+			app.fullName = 'John Doe';
+		</script>-->
+
+		<!--杂-->
+		<!--<div id="app">
+			<div>
+				<ul>
+					<li v-for="(value, key, index) in object">
+						{{ key }}-{{ value }}-{{ index }}
+					</li>
+				</ul>
+			</div>
+
+			<div>
+				<a v-for="(item,index) in items" v-on:click="onclick(index)" href="javascript:void(0)">
+					{{ index }}{{ item.text }}<br/></a>
+			</div>
+			<input type="text" name="" id="index" value="" />
+
+			<div>
+				<ul>
+					<li v-for="(option, index) in options">
+						<p class="text-success" v-on:click="getIndex(index)">
+							Text:{{option.text}}--Vlue:{{option.value}}</p>
+					</li>
+				</ul>
+			</div>
+			<div v-if="isNaN(click)==false">
+				<span>你点击的索引为: {{ click }}</span>
+			</div>
+			<div v-else>
+				<p class="text-danger">试着点击上方LI条目</p>
+			</div>
+		</div>-->
+		<!--<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					num: '',
+					object: {
+						firstName: 'John',
+						lastName: 'Doe',
+						age: 30
+					},
+					items: [{
+							text: '巴士'
+						},
+						{
+							text: '快车'
+						},
+						{
+							text: '专车'
+						},
+						{
+							text: '顺风车'
+						},
+						{
+							text: '出租车'
+						},
+						{
+							text: '代驾'
+						}
+					],
+					click: 'a',
+					options: [{
+							text: '上海市',
+							value: '20'
+						},
+						{
+							text: '湖北省',
+							value: '43'
+						},
+						{
+							text: '河南省',
+							value: '45'
+						},
+						{
+							text: '北京市',
+							value: '10'
+						}
+					]
+				},
+				methods: {
+					getIndex: function($index) {
+						this.click = $index;
+					},
+					onclick: function(index) {
+						console.log(index);
+						document.getElementById('index').value = index;
+						// window.location.href = "http://www.baidu.com";
+						window.location.href = "#";
+					}
+				}
+			})
+		</script>-->
+
+		<!--v-model语法示例：vue的单选框、复选框和下拉框 值绑定-->
+		<!--<div id="app">
+			<input v-model="message" placeholder="edit me">
+			<p>Message is: {{ message }}</p>
+			<hr />
+			<span>Multiline message is:</span>
+			<p style="white-space: pre-line;">{{ message }}</p>
+			<br>
+			<textarea v-model="message" placeholder="add multiple lines"></textarea>
+			<hr />
+			<input type="checkbox" id="checkbox" v-model="checked">
+			<label for="checkbox">{{ checked }}</label>
+			<br />
+			<div>
+				<input type="radio" name="gender" value="man" id="man" v-model="gender" />
+				<label for="man">男</label>
+				<input type="radio" name="gender" value="woman" id="women" v-model="gender" />
+				<label for="women">女</label>
+				<br />
+				<span>Checked gender: {{ gender }}</span>
+			</div>
+			<div>
+				<input type="checkbox" name="whom" value="jack" id="Jack" v-model="checkboxValue" />
+				<label for="Jack">jack</label>
+				<input type="checkbox" name="whom" value="bob" id="Bob" v-model="checkboxValue" />
+				<label for="Bob">bob</label>
+				<input type="checkbox" name="whom" value="alice" id="Alice" v-model="checkboxValue" />
+				<label for="Alice">alice</label>
+				<br />
+				<span>Checked gender: {{ checkboxValue.join(' | ') }}</span>
+			</div>
+
+			<div>
+				<input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+				<label for="jack">Jack</label>
+				<input type="checkbox" id="john" value="John" v-model="checkedNames">
+				<label for="john">John</label>
+				<input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+				<label for="mike">Mike</label>
+				<br>
+				<span>Checked names: {{ checkedNames }}</span>
+			</div>
+			<div>
+				<label>jack<input type="checkbox" v-model="person.jack"/></label>
+				<label>bob<input type="checkbox" v-model="person.bob"/></label>
+				<label>alice <input type="checkbox" v-model="person.alice"/></label>
+				<p>已选：{{person}}</p>
+			</div>
+			<select name="selected1">
+				<option disabled value="">A</option>
+				<option value="a">A</option>
+				<option value="b">B</option>
+				<option value="c">C</option>
+			</select>
+			<br />
+			<select v-model="selected2">
+				<option v-for="item in items" v-bind:value="item.value">{{item.text}}</option>
+			</select>
+			<span>已选:{{selected2}}</span>
+			<br />
+			<table>
+				<tr v-for="item in list">
+					<td>
+						<input type="checkbox" :value="item.value" v-model="item.checked" />
+						<span>已选: {{ item.checked}}</span>
+					</td>
+				</tr>
+			</table>
+			<select v-model="selected3">
+				<option v-for="option in options" v-bind:value="option.value">
+					{{ option.text }}
+				</option>
+			</select>
+			<span>Selected: {{ selected3 }}</span>
+			<br />
+			<!-- 当选中时，`picked` 为字符串 "a"
+			<input type="radio" v-model="picked" value="a">
+			<span>Selected: {{ picked }}</span>
+			<!-- `toggle` 为 true 或 false 
+			<input type="checkbox" v-model="toggle">
+			<span>Selected: {{ toggle }}</span>
+			<!-- 当选中第一个选项时，`selected` 为字符串 "abc" 
+			<select v-model="selected4">
+				<option value="abc">ABC</option>
+			</select>
+			<span>Selected: {{ selected4 }}</span>
+			<br />
+			<input type="checkbox" v-model="toggle" true-value="yes" false-value="no">
+			<span>Selected: {{ toggle }}</span>
+			<br />
+			<input type="radio" v-model="pick" v-bind:value="a">
+			<span>pick: {{ pick }}</span>
+			<br />
+			<select v-model="selected5">
+				<!-- 内联对象字面量 
+					// 当选中时
+					typeof vm.selected // => 'object'
+					vm.selected.number // => 123
+				<option v-bind:value="{ number: 123 }">123</option>
+			</select>
+			<span>selected5: {{ selected5 }}</span>
+			<span>selected5.number: {{ selected5.number }}</span>
+		</div>-->
+
+		<!--<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					message: '',
+					checked: '',
+					checkedNames: [],
+					gender: '',
+					checkboxValue: [],
+					person: {
+						jack: false,
+						bob: false,
+						alice: false
+					},
+					items: [{
+						text: 'A',
+						value: 'a'
+					}, {
+						text: 'B',
+						value: 'b'
+					}, {
+						text: 'C',
+						value: 'c'
+					}],
+					selected1: '',
+					selected2: '',
+					selected3: '',
+					selected4: '',
+					selected5:　'',
+					picked: '',
+					toggle: '',
+					pick: '',
+					a: 'This is a!',
+
+					list: [{
+						checked: true,
+						value: 'a'
+					}, {
+						checked: false,
+						value: 'b'
+					}],
+					options: [{
+							text: 'One',
+							value: 'A'
+						},
+						{
+							text: 'Two',
+							value: 'B'
+						},
+						{
+							text: 'Three',
+							value: 'C'
+						}
+					]
+				}
+			})
+		</script>-->
+
 		<!--<div id="app">
 			<p v-if="attrrubute">这里是通过v-if判断什么存在...</p>
 			<p v-if="attrrubute2">这里是通过v-if判断什么存在...</p>
@@ -17,13 +401,13 @@
 		<!--<div id="app">
 			<p v-for="num in 10">Hi! {{ num }}</p>
 			<!--过滤器--filterBy-->
-			<!--<input v-model="searchText" />
+		<!--<input v-model="searchText" />
 			<ul>
 				<li v-for="user in users | filterBy searchText in 'name'">
 					{{ user.name }}
 				</li>
 			</ul>-->
-			<!--过滤器--orderBy
+		<!--过滤器--orderBy
 			<ul>
 				<li v-for="user in users | orderBy field reverse">
 					{{ user.name }}
@@ -32,18 +416,157 @@
 				<p v-for="user in users">{{ user.name }}</p>
 			</ul>
 		</div>-->
-		
+
 		<!--
         	作者：1634372267@qq.com
         	时间：2018-08-20
         	描述：v-build：用于相应更新HTML特性，动态绑定属性attribute或组件prop到表达式
         -->
-        <!--<div id="app">
+		<!--<div id="app">
         	<!--绑定attribute-->
-        	<!--<div :class="[classA, {classB: isB, classC: isC}]"></div>
+		<!--<div :class="[classA, {classB: isB, classC: isC}]"></div>
         	<div v-bind="{ id: someProp, 'OTHERAttr': otherProp}"
         </div>-->
-		
+
+		<!--<div id="app">
+			<p>{{ foo }}</p>
+			<!-- 这里的 `foo` 不会更新！
+			<button v-on:click="foo = 'baz'">Change it</button>
+		</div>-->
+
+		<!--<div id="example1">
+			<button v-on:click="counter += 1">Add 1</button>
+			<p>The button above has been clicked {{ counter }} times.</p>
+
+			 `greet` 是在下面定义的方法名
+			<button v-on:click="greet">Greet</button>
+		</div>-->
+
+		<!--内联处理器中的方法-->
+		<!--<div id="vm">
+			<button v-on:click="say('hi')">Say hi</button>
+			<button @click="say('what')">Say what</button>
+			<ul id="vif">
+				<li v-if="true">
+					{{ true }}
+				</li>
+			</ul>
+			<button v-on:click="warn('Form cannot be submitted yet.', $event)">
+  				Submit
+			</button>
+		</div>-->
+		<!--
+        	作者：1634372267@qq.com
+        	时间：2018-08-21
+        	描述：v-on语法示例
+        	监听事件
+        	事件处理方法
+        	内联处理器中的方法
+        	事件修饰符
+        -->
+		<!--<script>
+			//不能两个示例同时绑定渲染一个ID
+			var vm = new Vue({
+				el: '#vm',
+				methods: {
+					say: function(message) {
+						alert(message)
+					},
+					warn: function(message, event) {
+						// 现在我们可以访问原生事件对象
+						if(event) event.preventDefault()
+						alert(message)
+					}
+				}
+			})
+			//可以绑定子元素
+			var vm1 = new Vue({
+				el: '#vif',
+				methods: {
+					say: function(message) {
+						alert(message)
+					}
+				}
+			})
+		</script>-->
+		<!--<script>
+			var example1 = new Vue({
+				el: '#example1',
+				data: {
+					//监听事件
+					counter: 0,
+					name: 'Vue.js'
+				},
+				//事件处理方法
+				// 在 `methods` 对象中定义方法
+				methods: {
+					greet: function(event) {
+						// `this` 在方法里指向当前 Vue 实例
+						alert('Hello ' + this.name + '!')
+						// `event` 是原生 DOM 事件
+						if(event) {
+							alert(event.target.tagName)
+						}
+					}
+				}
+			})
+
+			// 也可以用 JavaScript 直接调用方法
+			example1.greet() // => 'Hello Vue.js!
+		</script>-->
+
+		<!--数据与方法-->
+		<!--<script>
+			var obj = {
+				foo: 'bar'
+			};
+
+			//Object.freeze(obj);
+
+			var vm2 = new Vue({
+				el: '#app',
+				data: obj
+			});
+		</script>-->
+
+		<!--vue的object实例-->
+		<!--<script>
+			// 我们的数据对象
+			var data = {
+				a: 1
+			};
+
+			// 该对象被加入到一个 Vue 实例中
+			var vm = new Vue({
+				data: data
+			});
+
+			// 获得这个实例上的属性
+			// 返回源数据中对应的字段
+			console.log(vm.a == data.a); // => true
+
+			// 设置属性也会影响到原始数据
+			vm.a = 2;
+			console.log("data.a = " + data.a); // => 2
+
+			// ……反之亦然
+			data.a = 3;
+			console.log("vm.a=" + vm.a); // => 3
+
+			vm.b = 'hi';
+
+			var vm1 = new Vue({
+				data: {
+					newTodoText: '',
+					visitCount: 0,
+					hideCompletedTodos: false,
+					todos: [],
+					error: null
+				}
+			});
+
+		</script>-->
+
 		<!--console.log控制台输出-->
 		<!--<script>
 			console.log("Hello, Vue! 🎉");
@@ -120,8 +643,7 @@
 		   console.log(fun("js"));
 		</script>
 		-->
-		
-		<script src="js/index.js">
+
 		</script>
 	</body>
 
