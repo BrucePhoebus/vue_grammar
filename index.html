@@ -5,12 +5,77 @@
 		<meta charset="utf-8" />
 		<script src="js/vue.js"></script>
 		<title></title>
-
+		<style>
+			[v - cloak] {
+				display: none;
+			}
+		</style>
 	</head>
 
 	<body id="all">
-		<!--Class 与 Style 绑定-->
+		<!--v-model
+			lazy	debounce
+			
+			v-el
+			
+			v-cloak
+			
+			对象字面量
+		-->
 		<div id="app">
+			<input v-model="msg" lazy/> msg: {{ msg }}
+			<br />
+			<input v-model="message" debounce='500' /> message: {{message}}
+			<br />
+			<input v-model="num" number /> num: {{num}}
+			<hr />
+
+			<div>
+				<span v-el:msg>hello</span>
+				<span v-el:otherMsg>world</span>
+				<button v-on:click="vel()">vel语法</button>
+			</div>
+
+			<div v-cloak>
+				{{ num }}
+			</div>
+			
+			<div id="demo" v-demo="{color: 'white', textValue: 'hello!'}">
+				
+			</div>
+		</div>
+		<script>
+			Vue.directive('demo', function(value){
+				console.log(value.color);
+				console.log(value.textValue);
+			})
+			
+			var demo = new Vue({
+				el: '#demo'
+			})
+			
+			var app = new Vue({
+				el: '#app',
+				data: {
+					msg: '',
+					message: '',
+					num: '14684654654',
+					otherMsg: '',
+				},
+				methods: {
+					vel: function() {
+						document.write(this.$els.msg.textContent);
+						console.log(this.$els.msg.textContent);
+						document.write(this.$els.otherMsg.textContent);
+						console.log(this.$els.otherMsg.textContent);
+					}
+				},
+
+			})
+		</script>
+
+		<!--Class 与 Style 绑定-->
+		<!--<div id="app">
 			<div v-bind:class="{ active: isActive }">
 				active: {{ isActive }}
 			</div>
@@ -31,8 +96,8 @@
 				<span>isActive? {{activeClass}}</span>
 			</div>
 			<hr />
-		</div>
-		<script>
+		</div>-->
+		<!--<script>
 			var app = new Vue({
 				el: '#app',
 				data: {
@@ -54,7 +119,7 @@
 					}
 				}
 			});
-		</script>
+		</script>-->
 
 		<!--计算属性和侦听器
 			计算属性 vs 侦听属性
