@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/vue.js"></script>
+	</head>
+	<style>
+		.demo-alert-box {
+			color: #FF0000;
+		}
+	</style>
+
+	<body>
+		<!--
+			组件的基础应用
+			复用组件
+			data 必须是一个函数
+			通过 Prop 向子组件传递数据
+			单个根元素
+				重构一下这个 <blog-post> 组件，让它变成接受一个单独的 post prop
+			通过事件向父级组件发送消息
+			使用事件抛出一个值
+			在組件上使用v-model
+			通过插槽分发内容
+			动态组件
+		-->
+		<div id="blog-posts-events-demo">
+			<!-- 组件会在 `currentTabComponent` 改变时改变 -->
+			<!--<component v-bind:is="currentTabComponent"></component>-->
+
+			<alert-box>
+				Something bad happened.
+			</alert-box>
+
+			<input v-model="searchText"><br />
+			<!--<custom-input v-bind:value="searchText" v-on:input="searchText = $event"></custom-input>-->
+			<custom-input v-model="searchText"></custom-input>
+			<!--等价：
+				<input  v-bind:value="searchText"
+				  v-on:input="searchText = $event.target.value">
+		  -->
+			<div :style="{ fontSize: postFontSize + 'em' }">
+				<!--<blog-post v-for="post in posts" v-bind:key="post.id" v-bind:post="post" v-on:enlarge-text="postFontSize += $event"></blog-post>-->
+				<blog-post v-for="post in posts" v-bind:key="post.id" v-bind:post="post" v-on:enlarge-text="onEnlargeText"></blog-post>
+			</div>
+		</div>
+		<!--<div id="components-demo">
+			<button-count></button-count><br />
+			<button-count></button-count><br />
+			<button-count></button-count><br />
+			<!--<hr/>
+			<blog-post title="My journey with Vue"></blog-post>
+			<blog-post title="Blogging with Vue"></blog-post>
+			<blog-post title="Why Vue is so fun"></blog-post>
+			<hr />
+			<blog-post v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title"></blog-post>
+			<hr />
+			<blog-post v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title" v-bind:content="post.content" v-bind:publishedAt="post.publishedAt" v-bind:comments="post.comments"></blog-post>
+			<hr />
+			<blog-post v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></blog-post>
+		</div>-->
+
+		<script>
+			Vue.component('alert-box', {
+				template: '<div class="demo-alert-box"><strong>Error!</strong> <slot></slot></div>'
+			});
+
+			Vue.component('custom-input', {
+				props: ['value'],
+				template: '<input  v-bind:value="value"   v-on:input="$emit(\'input\', $event.target.value)" >'
+			});
+
+			Vue.component('test', {
+				props: ['test'],
+				template: '<div class="blog-post"><h3>{{ title }}</h3>	<div v-html="content"></div>	</div>',
+			});
+
+			Vue.component('blog-post', {
+				props: ['post'],
+				//				template: '<div class="blog-post"><h3>{{ post.title }}</h3><div v-html="post.content"></div></div> '
+				template: ' <div class="blog-post"><h3>{{ post.title }}</h3><button v-on:click="$emit(\'enlarge-text\', 0.1)"> Enlarge text  </button><div v-html="post.content"></div></div>'
+			})
+
+			Vue.component('button-count', {
+				data: function() {
+					return {
+						count: 0
+					}
+				},
+				template: '<button v-on:click="count++">check {{count}}</button>'
+			});
+
+			new Vue({
+				el: '#blog-posts-events-demo',
+				data: {
+					searchText: '',
+					postFontSize: 1,
+					posts: [{
+							id: 1,
+							title: 'My journey with Vue'
+						},
+						{
+							id: 2,
+							title: 'Blogging with Vue'
+						},
+						{
+							id: 3,
+							title: 'Why Vue is so fun'
+						}
+					],
+				},
+				methods: {
+					onEnlargeText: function(enlargeAmount) {
+						this.postFontSize += enlargeAmount
+					},
+				}
+			})
+		</script>
+	</body>
+
+</html>

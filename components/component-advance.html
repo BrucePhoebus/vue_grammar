@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/vue.js"></script>
+	</head>
+
+	<body>
+		<!--全局注册
+			props
+			传入一个数字
+			传入一个布尔值
+			传入一个数组
+			传入一个对象
+			传入一个对象的所有属性
+		-->
+		<div id="app">
+			<!-- 即便对象是静态的，我们仍然需要 `v-bind` 来告诉 Vue -->
+			<!-- 这是一个 JavaScript 表达式而不是一个字符串。-->
+			<blog-post v-bind:author="{ name: 'Veronica', company: 'Veridian Dynamics' }"></blog-post>
+			<!-- 用一个变量进行动态赋值。-->
+			<blog-post v-bind:author="post.author"></blog-post>
+
+			<!-- 即便数组是静态的，我们仍然需要 `v-bind` 来告诉 Vue -->
+			<!-- 这是一个 JavaScript 表达式而不是一个字符串。-->
+			<blog-post v-bind:comment-Ids="[234, 266, 273]"></blog-post>
+			<!-- 用一个变量进行动态赋值。-->
+			<blog-post v-bind:comment-Ids="post.commentIds"></blog-post>
+
+			<!-- 即便 `42` 是静态的，我们仍然需要 `v-bind` 来告诉 Vue -->
+			<!-- 这是一个 JavaScript 表达式而不是一个字符串。-->
+			<blog-post v-bind:likes="42"></blog-post>
+			<!-- 用一个变量进行动态赋值。-->
+			<blog-post v-bind:likes="post.likes"></blog-post>
+
+			<!-- 包含该 prop 没有值的情况在内，都意味着 `true`。-->
+			<blog-post is-published></blog-post>
+			<!-- 即便 `false` 是静态的，我们仍然需要 `v-bind` 来告诉 Vue -->
+			<!-- 这是一个 JavaScript 表达式而不是一个字符串。-->
+			<blog-post v-bind:is-published="false"></blog-post>
+			<!-- 用一个变量进行动态赋值。-->
+			<blog-post v-bind:is-published="post.isPublished"></blog-post>
+
+			<!-- 在 HTML 中是 kebab-case 的 -->
+			<!--<blog-post post-title="hello!"></blog-post>-->
+			<blog-post title="My journey with Vue"></blog-post>
+			<!-- 动态赋予一个变量的值 -->
+			<blog-post v-bind:title="post.title"></blog-post>
+
+			<!-- 动态赋予一个复杂表达式的值 -->
+			<blog-post v-bind:title="post.title + ' by ' + post.author.name"></blog-post>
+
+			<blog-post></blog-post>
+			<!--<component-a></component-a>
+			<component-b></component-b>
+			<component-c></component-c>-->
+		</div>
+
+		<!--局部注册
+			通过一个普通的 JavaScript 对象来定义组件
+		-->
+
+		<script>
+			Vue.component('blog-post', {
+				// 在 JavaScript 中是 camelCase 的
+				props: {
+					title: String,
+					likes: Number,
+					isPublished: Boolean,
+					commentIds: Array,
+					author: Object
+				},
+				template: '<div id="blog-post"><p>{{ title }}-{{ likes }}-{{ isPublished }}-{{ commentIds }}-{{ author }}</p></div>'
+			});
+
+			//全局注册
+			/*Vue.component('component-a', {
+				template: '',
+			});
+			Vue.component('component-b', {
+				template: '',
+			});
+			Vue.component('component-c', {
+				template: '',
+			});*/
+
+			//局部注册
+			/*var ComponentA = {};
+			var ComponentB = {
+				components: {
+					'component-a': ComponentA
+				},
+				// ...
+			}
+			var ComponentC = {};*/
+
+			new Vue({
+				el: '#app',
+				data: {
+					post: {
+						id: 1,
+						title: 'This is post title!',
+						likes: 10,
+						isPublished: true,
+						author: {
+							name: 'phoebus',
+						},
+						commentIds: [1, 2, 3, 4, 5],
+						author: {
+							name: 'phoebus',
+							company: 'southgis'
+						}
+					},
+				},
+				components: {
+					//					'component-a': ComponentA,
+					//					'component-b': ComponentB,
+					//					'component-c': ComponentC,
+				}
+			})
+		</script>
+	</body>
+
+</html>

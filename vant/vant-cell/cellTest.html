@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<!-- import style -->
+		<link rel="stylesheet" href="https://unpkg.com/vant/lib/vant-css/index.css" />
+
+		<!-- import script -->
+		<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+		<script src="https://unpkg.com/vant/lib/vant.min.js"></script>
+		<title></title>
+		<script>
+			<van-cell-group>
+		       <van-cell title="单元格1" value="内容1" ></van-cell>
+		        <van-cell title="单元格2" value="内容2" /></van-cell>
+		        <van-cell title="单元格3" value="内容3" /></van-cell>
+			</van-cell-group>
+		</script>
+	</head>
+
+	<body>
+		<div class="van-cell-group van-hairline--top-bottom">
+			<div class="van-cell van-hairline">
+				<div class="van-cell__title"><span class="van-cell__text">单元格1</span></div>
+				<div class="van-cell__value">
+					<div class="van-cell van-hairline">
+						<div class="van-cell__title"><span class="van-cell__text">单元格2</span></div>
+						<div class="van-cell__value">
+							<div class="van-cell van-hairline">
+								<div class="van-cell__title"><span class="van-cell__text">单元格3</span></div>
+								<div class="van-cell__value"><span>内容3</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
