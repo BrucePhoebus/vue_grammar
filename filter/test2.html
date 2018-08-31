@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    let arr = [1,2,6,3,4,5];
+    let res = arr.filter(function(item,index,array){
+        //元素值，元素的索引，原数组。
+        return (item>3);
+    });
+    console.log(res);//[6, 4, 5]
+</script>
+</body>
+</html>

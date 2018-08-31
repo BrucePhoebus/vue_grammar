@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div class="dynamic_parameter">
+    <input v-model="inputValue" /><br />
+    <span>{{ msg | contat inputValue }}</span>
+</div>
+
+<script>
+    new Vue({
+        name: 'dynamic_parameter',
+        date() {
+            return {
+                inputValue: '',
+                msg: ''
+            }
+        }
+    })
+
+    //根据用户输入动态计算
+    Vue.filter('contat', function(value, inputValue) {
+        return value + inputValue;
+    })
+</script>
+</body>
+</html>

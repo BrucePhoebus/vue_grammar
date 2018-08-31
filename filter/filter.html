@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div><span>{{ reverseStr }}</span></div>
+    <div><p>{{ reverseStrRemoveNum }}</p></div>
+    <div class="markdown"><span>{{ markedContent }}</span></div>
+    <div>
+        <p>
+            {{filters1.msg | split0}}
+        </p>
+    </div>
+    <div>
+        <button>{{ wrap }}</button>
+    </div>
+    <div>
+        <input type="text" v-model="filters2.message"/><br/>
+        <!-- 在双花括号中 -->
+        {{ filters2.message | capitalize }}
+        <!-- 在 `v-bind` 中 -->
+        <!--<div v-bind:id="rawId | formatId"></div>-->
+    </div>
+    <!--<div>
+        <input type="text" v-model="m | currencyDisplay"><br />
+        <span>{{ m }}</span>
+    </div>-->
+    <div>
+        <input v-model="userInput"/><br/>
+        <span>{{filters3.message | concat(userInput)}}</span>
+    </div>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data() {
+            return {
+                m: '',
+                content: '## 标题**哈哈**',
+                userInput: '',
+                hello: 'hello',
+                filters1: {
+                    msg: '2.0',
+                    hello: 'hello',
+                },
+                filters2: {
+                    message: 'This is message!',
+                    rawId: '',
+                },
+                filters3: {
+                    message: 'This is message3!',
+                }
+            }
+        },
+        computed: {
+            markedContent() {
+                return this.content.replace(/[^0-9]/g, '');
+            },
+            reverseStr() {
+                return this.content.split('').reverse().join('');
+            },
+            reverseStrRemoveNum() {
+                const temp = this.content.split('').reverse().join('');
+                temp = temp.replace(/[^0-9]/g, '');
+                console.log(temp);
+                return temp;
+            },
+            wrap() {
+                return 'before' + "-" + this.hello + "-" + 'after';
+            }
+        }
+    });
+
+    Vue.filter('concat', function (value, input) {
+        // 这里 `input` === `this.userInput`
+        return value + input;
+    });
+
+    Vue.filter('currencyDisplay', {
+        // model -> view
+        // 在更新 `<input>` 元素之前格式化值
+        read: function (val) {
+            return '￥' + val.toFixed(2)
+        },
+        // view -> model
+        // 在写回数据之前格式化值
+        write: function (val, oldVal) {
+            var number = +val.replace(/[^\d.]/g, '');
+            return isNaN(number) ? 0 : parseFloat(number.toFixed(2))
+        }
+    });
+
+    //首字母大写
+    Vue.filter('capitalize', function (value) {
+        if (!value) return '';
+        value = value.toString();
+        return value.charAt(0).toUpperCase() + value.slice(1);
+    });
+
+    //过滤，取小数点前面的值
+    Vue.filter('split0', function (value) {
+        return value.split('.')[0];
+    });
+
+</script>
+</body>
+</html>
