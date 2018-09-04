@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<!--GET请求-->
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/jquery.js"></script>
+	</head>
+
+	<body>
+
+		<script>
+			$.ajax({
+				url:'https://easy-mock.com/mock/5b8ddf9c877c2567398cae3c/u/z/success#!method=get',
+				success:function(res){
+					console.info(res.success);
+					console.info(res.data.Date);
+				}
+			})
+		</script>
+	</body>
+
+</html>

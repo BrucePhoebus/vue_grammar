@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<!--jQuery使用AJAX进行post请求-获取模拟数据-->
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../../js/jquery.js"></script>
+	</head>
+
+	<body>
+
+		<script>
+			$.ajax({
+				//修改请求类型为post请求
+				type: 'post',
+				url:'https://easy-mock.com/mock/5b8ddf9c877c2567398cae3c/u/z/returnData#!method=post',
+				success: function(res) {
+					console.info(res.success);
+					console.info(res.data.zz);
+				}
+			})
+		</script>
+	</body>
+
+</html>
