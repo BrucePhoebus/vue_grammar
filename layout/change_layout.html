@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            font: 15px/1.3 'Open Sans',sans-serif;
+            color: #5e5b64;
+            text-align: center;
+        }
+        a,a:visited{
+            outline: none;
+            color: #389dc1;
+        }
+        a:hover{
+            text-decoration: none;
+        }
+        section,footer,header,aside,nav{
+            display: block;
+        }
+
+        /* The search input */
+        .bar{
+            background-color: #5c9bb7;
+            background-image: -webkit-linear-gradient(top,#5c9bb7,#5392ad);
+            background-image:-moz-linear-gradient(top,#5c9bb7,#5392ad);
+            background-image:linear-gradient(top,#5c9bb7,#5392ad);
+
+            box-shadow: 0 1px 1px #ccc;
+            border-radius: 2px;
+            width: 580px;
+            padding: 10px;
+            margin:45px auto 25px;
+            position: relative;
+            text-align: right;
+            line-height: 1;
+        }
+        .bar a{
+            background: #4987a1 center center no-repeat;
+            width: 32px;
+            height: 32px;
+            display: inline-block;
+            text-decoration: none !important;
+            margin-right: 5px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .bar a.active{
+            background-color: #c14694;
+        }
+        .bar a.list-icon{
+            background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkYzNkFCQ0ZBMTBCRTExRTM5NDk4RDFEM0E5RkQ1NEZCIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkYzNkFCQ0ZCMTBCRTExRTM5NDk4RDFEM0E5RkQ1NEZCIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RjM2QUJDRjgxMEJFMTFFMzk0OThEMUQzQTlGRDU0RkIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RjM2QUJDRjkxMEJFMTFFMzk0OThEMUQzQTlGRDU0RkIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7h1bLqAAAAWUlEQVR42mL8////BwYGBn4GCACxBRlIAIxAA/4jaXoPEkMyjJ+A/g9MDJQBRhYg8RFqMwg8RJIUINYLFDmBUi+ADQAF1n8ofk9yIAy6WPg4GgtDMRYAAgwAdLYwLAoIwPgAAAAASUVORK5CYII=);
+        }
+        .bar a.grid-icon{
+            background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjBEQkMyQzE0MTBCRjExRTNBMDlGRTYyOTlBNDdCN0I4IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjBEQkMyQzE1MTBCRjExRTNBMDlGRTYyOTlBNDdCN0I4Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MERCQzJDMTIxMEJGMTFFM0EwOUZFNjI5OUE0N0I3QjgiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MERCQzJDMTMxMEJGMTFFM0EwOUZFNjI5OUE0N0I3QjgiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4MjPshAAAAXklEQVR42mL4////h/8I8B6IGaCYKHFGEMnAwCDIAAHvgZgRyiZKnImBQsACxB+hNoDAQyQ5osQZIT4gH1DsBZABH6AB8x/JaQzEig++WPiII7Rxio/GwmCIBYAAAwAwVIzMp1R0aQAAAABJRU5ErkJggg==);
+        }
+        .bar input{
+            background: #fff no-repeat 13px 13px;
+            border: none;
+            width: 100%;
+            line-height: 19px;
+            padding: 11px 0;
+
+            border-radius: 2px;
+            box-shadow: 0 2px 8px #c4c4c4 inset;
+            text-align: left;
+            font-size: 14px;
+            font-family: inherit;
+            color: #738289;
+            font-weight: bold;
+            outline: none;
+            text-indent: 40px;
+        }
+
+        /* List layout */
+        ul.list{
+            list-style: none;
+            width: 500px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        ul.list li{
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            overflow: hidden;
+        }
+        ul.list li img{
+            width: 120px;
+            height: auto;
+            float: left;
+            border: none;
+        }
+        ul.list li p{
+            margin-left: 135px;
+            font-weight: bold;
+            color: #6e7a7f;
+        }
+
+        /* Grid layout */
+        ul.grid{
+            list-style: none;
+            width: 570px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        ul.grid li{
+            padding: 2px;
+            float: left;
+        }
+        ul.grid li img{
+            width:280px;
+            height: 280px;
+            object-fit: cover;      /* 类似于background-size */
+            display: block;
+            border: none;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<form id="main" v-cloak>
+    <div class="bar">
+        <a class="list_icon" v-bind:class="{'active' : layout == 'list'}" v-on:click="layout = 'list'">list</a>
+        <a class="grid_icon" v-bind:class="{'active' : layout == 'grid'}" v-on:click="layout = 'grid'">grid</a>
+    </div>
+
+    <ul v-if="layout == 'grid'" class="grid">
+        <li v-for="a in articles">
+            <a v-bind:href="a.url" target="_blank">
+                <img v-bind:src="a.image.large" />
+            </a>
+        </li>
+    </ul>
+
+    <ul v-if="layout == 'list'" class="list">
+        <li v-for="a in articles">
+            <a v-bind:href="a.url" target="_blank">
+                <img v-bind:src="a.image.small" />
+            </a>
+            <p>{{a.title}}</p>
+        </li>
+    </ul>
+</form>
+
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.16/vue.js"></script>
+
+<script>
+
+    var demo = new Vue({
+        el:'#main',
+        data:{
+            layout:'grid',
+            articles:[{
+                "title":"What You Need To Know About CSS Variables",
+                "url":"www.baidu.com/",
+                "image":{
+                    "large":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514376745&di=f727670b693748e2527fd52e628f8a7a&imgtype=jpg&er=1&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fbaike%2Fc0%253Dbaike60%252C5%252C5%252C60%252C20%2Fsign%3D0a7608562edda3cc1fe9b07260805264%2F34fae6cd7b899e514ef3abdd42a7d933c9950dfd.jpg",
+                    "small":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513782047839&di=f7eef0986bd27d2676a6270dd8c2baa0&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D1312077349%2C3650047031%26fm%3D214%26gp%3D0.jpg"
+                }
+            },
+                {
+                    "title": "Freebie: 4 Great Looking Pricing Tables",
+                    "url": "www.google.com/",
+                    "image": {
+                        "large": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513782027118&di=03e6cc6b19a9fb5381889fd65ce9d37a&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fzhidao%2Fwh%253D600%252C800%2Fsign%3D03decec4932397ddd62c900269b29e8f%2F562c11dfa9ec8a1305c1a0c3f503918fa0ecc03e.jpg",
+                        "small": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513782027117&di=b3f62d8dc4fba91f675d64ecc4b18f44&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3Dc6b40ec8347adab43d851347bee49f2a%2Fcc11728b4710b912f6514b1ec1fdfc03934522b9.jpg"
+                    }
+                },
+                {
+                    "title": "20 Interesting JavaScript and CSS Libraries for February 2016",
+                    "url":"www.sougou.com",
+                    "image": {
+                        "large": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513782027117&di=45401c794f2305bda168f3d3f0bee0ed&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D55db5f93abec8a13141a57e8c7029157%2F3b73da3d70cf3bc79dcab690d300baa1cc112a79.jpg",
+                        "small": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513782104401&di=d18b50033d3e3532314fe0e34ecd3aff&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D642234813%2C1439206487%26fm%3D214%26gp%3D0.jpg"
+                    }
+                }],
+        },
+    });
+
+
+
+
+</script>
+
+</body>
+</html>
