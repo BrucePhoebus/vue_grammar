@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../../js/vue.js"></script>
+    <style type="text/css">
+        html{
+            background: rgb(214,175,209);
+        }
+        /*计算器*/
+        #app{
+            text-align: center;
+            margin-top: 8%;
+            position: relative;
+        }
+        .goods_box{
+            width: 70vw;
+            margin-left:15vw;
+            height: auto;
+            margin-top: 5%;
+        }
+        .goods_box ul{
+            width: 100%;
+            overflow:auto;
+        }
+        .goods_box ul li{
+            float: left;
+            width: 23%;
+            height: auto;
+            cursor: pointer;
+            margin: 2% 1%;
+            font-size: 0.6rem;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            padding-bottom: 1%;
+            border-radius: 4px;
+        }
+        .goods_img{
+            width: 40%;
+            border-radius: 6px;
+            height: auto;
+            margin-left: -4%;
+            margin-top: -4%;
+            box-shadow: 3px 3px 2px rgba(0,0,0,.24);
+        }
+        .price{
+            margin-left: 6%;
+            text-align: left;
+        }
+        .or_price{
+            color: rgba(242,58,58,0.8);
+            text-decoration: line-through;
+        }
+        .goods_name{
+            margin-top: 4%;
+        }
+        .now_and_or{
+            margin-top: 5%;
+        }
+        .now_price{
+            font-size: 1rem;
+        }
+
+        /*计算结果的盒子*/
+        .count_box{
+            width: 70vw;
+            margin-left:15vw;
+            height: auto;
+            border: 2px dashed rgb(253,234,93);
+            display: flex;
+            align-items: center;
+            padding: 2%;
+            position: relative;
+        }
+        .count_box .goods_img{
+            width: 100px;
+            height: 100px;
+            margin:0;
+            box-shadow: none;
+        }
+        .count_box ul{
+            width: 100%;
+            overflow:auto;
+        }
+        .count_box ul li{
+            float: left;
+            cursor: pointer;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            padding-top: 2%;
+            padding-bottom: 1%;
+            border-radius: 4px;
+        }
+        .count_box ul li .price{
+            text-align: center;
+        }
+        .img_box{
+            position: relative;
+        }
+        .add{
+            font-size: 2rem;
+            color:rgb(253,234,93);
+            margin-left: 20px;
+        }
+        .delete{
+            display: flex;
+            align-items: center;
+            color:rgb(253,234,93);
+            font-size: 34px;
+            position: absolute;
+            top: -25%;
+            right: -9%;
+            cursor: pointer;
+            z-index: 1;
+        }
+        /*计算结果*/
+        .result{
+            margin-top: 16%;
+            margin-left: -30px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            text-align: left;
+            background: rgb(214,175,209);
+        }
+        .result_content{
+            display: block;
+            margin-left: 2rem;
+        }
+        .or_amount{
+            text-decoration: line-through;
+            line-height: 2rem;
+        }
+        .equal_to{
+            font-size: 2rem;
+            color:rgb(253,234,93);
+        }
+        .now_amount span{
+            color:rgb(253,234,93);
+        }
+
+        .img01{
+            position: absolute;
+        }
+        .buy{
+            position: absolute;
+            right: 12px;
+            bottom: 10px;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+<!-- 商品计算器 -->
+<div id="app">
+    <div class="goods_box">
+        <ul>
+            <li class="goods" v-for="(item, index) in list" @click="choose(index)">
+                <img class="goods_img" :src="item.goods_img">
+                <div class="price">
+                    <div class="goods_name">
+                        {{item.name}}
+                    </div>
+                    <div class="now_and_or">
+                        <div class="now">现价：<span class="now_price">{{item.hide_price}}￥</span></div>
+                        <div class="or">原价：<span class="or_price">{{item.or_price}}￥</span></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="count_box">
+        <ul>
+            <li v-for="(item, index) in count_list" @click="deleteGoods(index)">
+                <div class="count_box_item">
+                    <div class="img_box">
+                        <div class="delete">×</div>
+                        <img class="goods_img" :src="item.goods_img">
+                    </div>
+                </div>
+                <div class="add">+</div>
+            </li>
+            <li>
+                <div class="result">
+                    <div class="equal_to">=</div>
+                    <div class="result_content">
+                        <div class="or_amount">原价：{{or_amount}}￥</div>
+                        <div class="now_amount">现价：<span>{{now_amount}}￥</span></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <a class="buy" href="#">立即购买</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<script type="text/javascript">
+    var idsArray = [];
+    var or_priceArray = [];
+    var now_priceArray = [];
+    //数组去重
+    function removeDuplicatedItem(arr) {
+        for(var i = 0; i < arr.length-1; i++){
+            for(var j = i+1; j < arr.length; j++){
+                if(arr[i]==arr[j]){
+                    arr.splice(j,1);
+                    j--;
+                }
+            }
+        }
+        return arr;
+    }
+    var app = new Vue({
+        el:"#app",
+        data:{
+            // 商品列表
+            list:[
+                {
+                    goods_img:"http://cdn.w7.cc/images/2018/05/19/mdqzEyVEeqBdK3xKulqskX9ryMMfTbgbU1jMOE7i.jpeg?imageView2/5/w/88/format/png",
+                    or_price:"100",
+                    now_price:"10",
+                    //显示的价格
+                    hide_price:"50",
+                    name:"很长很长的名字"
+                },
+                {
+                    goods_img:"http://cdn.w7.cc/images/2018/05/19/mdqzEyVEeqBdK3xKulqskX9ryMMfTbgbU1jMOE7i.jpeg?imageView2/5/w/88/format/png",
+                    or_price:"200",
+                    now_price:"20",
+                    hide_price:"？",
+                    name:"很长很长的名字"
+                },
+                {
+                    goods_img:"http://cdn.w7.cc/images/2018/05/19/mdqzEyVEeqBdK3xKulqskX9ryMMfTbgbU1jMOE7i.jpeg?imageView2/5/w/88/format/png",
+                    or_price:"300",
+                    now_price:"30",
+                    hide_price:"50",
+                    name:"很长很长的名字"
+                },
+                {
+                    goods_img:"http://cdn.w7.cc/images/2018/05/19/mdqzEyVEeqBdK3xKulqskX9ryMMfTbgbU1jMOE7i.jpeg?imageView2/5/w/88/format/png",
+                    or_price:"100",
+                    now_price:"10",
+                    hide_price:"50",
+                    name:"很长很长的名字"
+                },
+                {
+                    goods_img:"http://cdn.w7.cc/images/2018/05/19/mdqzEyVEeqBdK3xKulqskX9ryMMfTbgbU1jMOE7i.jpeg?imageView2/5/w/88/format/png",
+                    or_price:"200",
+                    now_price:"20",
+                    hide_price:"？",
+                    name:"很长很长的名字"
+                },
+                {
+                    goods_img:"http://cdn.w7.cc/images/2018/05/19/mdqzEyVEeqBdK3xKulqskX9ryMMfTbgbU1jMOE7i.jpeg?imageView2/5/w/88/format/png",
+                    or_price:"300",
+                    now_price:"30",
+                    hide_price:"50",
+                    name:"很长很长的名字"
+                },
+                {
+                    goods_img:"http://cdn.w7.cc/images/2018/05/19/mdqzEyVEeqBdK3xKulqskX9ryMMfTbgbU1jMOE7i.jpeg?imageView2/5/w/88/format/png",
+                    or_price:"100",
+                    now_price:"10",
+                    hide_price:"50",
+                    name:"很长很长的名字"
+                },
+                {
+                    goods_img:"http://cdn.w7.cc/images/2018/05/19/mdqzEyVEeqBdK3xKulqskX9ryMMfTbgbU1jMOE7i.jpeg?imageView2/5/w/88/format/png",
+                    or_price:"200",
+                    now_price:"20",
+                    hide_price:"50",
+                    name:"很长很长的名字"
+                },
+                {
+                    goods_img:"http://cdn.w7.cc/images/2018/05/19/mdqzEyVEeqBdK3xKulqskX9ryMMfTbgbU1jMOE7i.jpeg?imageView2/5/w/88/format/png",
+                    or_price:"300",
+                    now_price:"30",
+                    hide_price:"50",
+                    name:"很长很长的名字"
+                }
+            ],
+            //动态选择列表
+            count_list:[],
+            //原总价
+            or_amount:0,
+            //现总价
+            now_amount:0
+        },
+        methods:{
+            choose: function(index){
+                var arr = this.list;
+                var that = this;
+                //清空数组
+                this.count_list = [];
+
+                this.or_amount = 0;
+                this.now_amount = 0;
+
+                or_priceArray = [];
+                now_priceArray = [];
+
+                idsArray.push(index);
+                //数组去重
+                removeDuplicatedItem(idsArray);
+                //循环打印选中商品
+                for( var i=0;i<idsArray.length;i++){
+                    that.count_list.push(arr[idsArray[i]]);
+                    or_priceArray.push(parseInt(arr[idsArray[i]].or_price));
+                    now_priceArray.push(parseInt(arr[idsArray[i]].now_price));
+                }
+                //循环计算价格
+                for(var i=0;i<or_priceArray.length;i++){
+                    this.or_amount += or_priceArray[i];
+                    this.now_amount += now_priceArray[i];
+                }
+            },
+            //删除商品
+            deleteGoods: function(index){
+                this.or_amount = 0;
+                this.now_amount = 0;
+
+                this.count_list.splice(index,1);
+                idsArray.splice(index,1);
+                or_priceArray.splice(index,1);
+                now_priceArray.splice(index,1);
+                //循环计算价格
+                for(var i=0;i<or_priceArray.length;i++){
+                    this.or_amount += or_priceArray[i];
+                    this.now_amount += now_priceArray[i];
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
